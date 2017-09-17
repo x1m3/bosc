@@ -124,7 +124,7 @@ func (n *simpleBinaryTreeNode) Add(val Comparable) error {
 	compare := val.Compare(n.val)
 	switch {
 	case compare == 0:
-		return errors.New("Duplicate myNumber")
+		return errors.New("Duplicated value.")
 	case compare < 0:
 		if n.left != nil {
 			return n.left.Add(val)
@@ -165,7 +165,7 @@ func (n *simpleBinaryTreeNode) Find(val Comparable, father *simpleBinaryTreeNode
 			return n.right.Find(val, n)
 		}
 	}
-	return nil, father, errors.New("Not Found")
+	return nil, father, errors.New("Not Found.")
 }
 
 func (n *simpleBinaryTreeNode) Remove(val Comparable) (found bool) {
