@@ -127,7 +127,7 @@ func TestSimpleBinaryTree_Remove2Childs(t *testing.T) {
 }
 
 func TestSimpleBinaryTree_Range(t *testing.T) {
-	ITEMS := 10000000
+	ITEMS := 1000000
 
 	tree := NewSimpleBinaryTree()
 	for _, j := range rand.Perm(ITEMS) {
@@ -136,8 +136,8 @@ func TestSimpleBinaryTree_Range(t *testing.T) {
 		}
 	}
 
-	from := MyNumber(450000)
-	to := MyNumber(450020)
+	from := MyNumber(45000)
+	to := MyNumber(46000)
 
 	nodes := 0
 	tree.Range(from, to, func(val Comparable) {
@@ -149,7 +149,10 @@ func TestSimpleBinaryTree_Range(t *testing.T) {
 			t.Errorf("Error in range. Found a value <%d> that shouldn't be in range", val.Key().(int))
 		}
 	})
-	fmt.Println(nodes)
+	nodes_expected :=  to.Key().(int) - from.Key().(int) + 1
+	if nodes != nodes_expected {
+		t.Errorf("Range function executed over %d nodes. Expecting %d", nodes, nodes_expected)
+	}
 }
 
 func TestSimpleBinaryTree_RangeFrom(t *testing.T) {
@@ -164,12 +167,42 @@ func TestSimpleBinaryTree_RangeFrom(t *testing.T) {
 
 	from := MyNumber(1000)
 
-
+	nodes := 0
 	tree.RangeFrom(from, func(val Comparable) {
+		nodes++
 		if val.Compare(from) < 0 {
 			t.Errorf("Error in range. Found a value <%d> that shouldn't be in range", val.Key().(int))
 		}
 	})
+	nodes_expected :=  tree.Max().Key().(int) - from.Key().(int) + 1
+	if nodes != nodes_expected {
+		t.Errorf("Range function executed over %d nodes. Expecting %d", nodes, nodes_expected)
+	}
+}
+
+func TestSimpleBinaryTree_RangeTo(t *testing.T) {
+	ITEMS := 1000000
+
+	tree := NewSimpleBinaryTree()
+	for _, j := range rand.Perm(ITEMS) {
+		if err := tree.Add(MyNumber(j)); err != nil {
+			t.Error(err)
+		}
+	}
+
+	to := MyNumber(5000)
+
+	nodes := 0
+	tree.RangeTo(to, func(val Comparable) {
+		nodes++
+		if val.Compare(to) > 0 {
+			t.Errorf("Error in range. Found a value <%d> that shouldn't be in range", val.Key().(int))
+		}
+	})
+	nodes_expected :=  to.Key().(int)  - tree.Min().Key().(int) + 1
+	if nodes != nodes_expected {
+		t.Errorf("Range function executed over %d nodes. Expecting %d", nodes, nodes_expected)
+	}
 }
 
 func TestSimpleBinaryTree_RemoveBrutalRandom(t *testing.T) {

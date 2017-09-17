@@ -125,14 +125,12 @@ func (n *SimpleBinaryTreeNode) Add(val Comparable) error {
 			return n.left.Add(val)
 		} else {
 			n.left = NewSimpleBinaryTreeNode(val)
-
 		}
 	case compare > 0:
 		if n.right != nil {
 			return n.right.Add(val)
 		} else {
 			n.right = NewSimpleBinaryTreeNode(val)
-
 		}
 	}
 	return nil
@@ -241,9 +239,33 @@ func (n *SimpleBinaryTreeNode) RangeAll(fn func(val Comparable)) {
 	}
 }
 
-func (n *SimpleBinaryTreeNode) RangeFrom(val Comparable, fn func(node Comparable)) {}
+func (n *SimpleBinaryTreeNode) RangeFrom(from Comparable, fn func(node Comparable)) {
+	if n.left != nil {
+		n.left.RangeFrom(from, fn)
+	}
 
-func (n *SimpleBinaryTreeNode) RangeTo(val Comparable, fn func(node Comparable)) {}
+	if n.val.Compare(from) >= 0 {
+		fn(n.val)
+	}
+
+	if n.right != nil {
+		n.right.RangeFrom(from, fn)
+	}
+}
+
+func (n *SimpleBinaryTreeNode) RangeTo(to Comparable, fn func(node Comparable)) {
+	if n.left != nil {
+		n.left.RangeTo(to, fn)
+	}
+
+	if n.val.Compare(to) <= 0 {
+		fn(n.val)
+	}
+
+	if n.right != nil {
+		n.right.RangeTo(to, fn)
+	}
+}
 
 func (n *SimpleBinaryTreeNode) Min() Comparable {
 	p := n
