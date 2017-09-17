@@ -6,26 +6,26 @@ import (
 	"fmt"
 )
 
-type MyNumber int
+type myNumber int
 
-func (a MyNumber) Compare(b Comparable) int {
-	return int(a.Key().(int) - b.(MyNumber).Key().(int))
+func (a myNumber) Compare(b Comparable) int {
+	return int(a.Key().(int) - b.(myNumber).Key().(int))
 }
 
-func (a MyNumber) Key() interface{} {
+func (a myNumber) Key() interface{} {
 	return int(a)
 }
 
 func TestSimpleBinaryTree(t *testing.T) {
 
-	tree := NewSimpleBinaryTree()
+	tree := newSimpleBinaryTree()
 	perms := rand.Perm(1000)
 	for _, i := range perms {
-		tree.Add(MyNumber(i))
+		tree.Add(myNumber(i))
 	}
 
 	for i := 0; i < 1000; i++ {
-		if _, err := tree.Find(MyNumber(i)); err != nil {
+		if _, err := tree.Find(myNumber(i)); err != nil {
 			t.Error("La cagastes Burt Lancaster")
 		}
 	}
@@ -33,95 +33,95 @@ func TestSimpleBinaryTree(t *testing.T) {
 	tree.RangeAll(func(val Comparable) { fmt.Printf("%v ", val) })
 	fmt.Println("")
 
-	tree.Range(MyNumber(100), MyNumber(200), func(val Comparable) { fmt.Printf("%v ", val) })
+	tree.Range(myNumber(100), myNumber(200), func(val Comparable) { fmt.Printf("%v ", val) })
 }
 
 func TestSimpleBinaryTree_Remove_NoChilds(t *testing.T) {
 
 	// Let's create a tree unbalanced to the right
-	tree := NewSimpleBinaryTree()
+	tree := newSimpleBinaryTree()
 	for i := 0; i < 10; i++ {
-		tree.Add(MyNumber(i))
+		tree.Add(myNumber(i))
 	}
 
 	// Removing the last one
-	tree.Remove(MyNumber(9))
+	tree.Remove(myNumber(9))
 
-	values := []MyNumber{}
-	tree.RangeAll(func(val Comparable) { values = append(values, val.(MyNumber)) })
+	values := []myNumber{}
+	tree.RangeAll(func(val Comparable) { values = append(values, val.(myNumber)) })
 
-	if !testSliceEqual([]MyNumber{0, 1, 2, 3, 4, 5, 6, 7, 8}, values) {
+	if !testSliceEqual([]myNumber{0, 1, 2, 3, 4, 5, 6, 7, 8}, values) {
 		t.Error("Error removing the a node with no childs")
 	}
 }
 
 func TestSimpleBinaryTree_Remove_OnlyOneNodeInTree(t *testing.T) {
-	tree := NewSimpleBinaryTree()
-	tree.Add(MyNumber(5))
-	tree.Remove(MyNumber(5))
+	tree := newSimpleBinaryTree()
+	tree.Add(myNumber(5))
+	tree.Remove(myNumber(5))
 }
 
 func TestSimpleBinaryTree_Remove_OneChild(t *testing.T) {
 
 	// Let's create an unbalanced tree to the right
-	treeRight := NewSimpleBinaryTree()
+	treeRight := newSimpleBinaryTree()
 	for i := 0; i < 10; i++ {
-		treeRight.Add(MyNumber(i))
+		treeRight.Add(myNumber(i))
 	}
 
 	// Let's create an unbalanced tree to the left
-	treeLeft := NewSimpleBinaryTree()
+	treeLeft := newSimpleBinaryTree()
 	for i := 9; i >= 0; i-- {
-		treeLeft.Add(MyNumber(i))
+		treeLeft.Add(myNumber(i))
 	}
 
 	// Removing a node in the middle
-	treeRight.Remove(MyNumber(5))
-	treeLeft.Remove(MyNumber(5))
+	treeRight.Remove(myNumber(5))
+	treeLeft.Remove(myNumber(5))
 
 	// Let's check right tree type
-	values := []MyNumber{}
-	treeRight.RangeAll(func(val Comparable) { values = append(values, val.(MyNumber)) })
-	if !testSliceEqual([]MyNumber{0, 1, 2, 3, 4, 6, 7, 8, 9}, values) {
+	values := []myNumber{}
+	treeRight.RangeAll(func(val Comparable) { values = append(values, val.(myNumber)) })
+	if !testSliceEqual([]myNumber{0, 1, 2, 3, 4, 6, 7, 8, 9}, values) {
 		t.Error("Error removing a node with one right child")
 	}
 
 	// Let's check left tree type
-	values = []MyNumber{}
-	treeLeft.RangeAll(func(val Comparable) { values = append(values, val.(MyNumber)) })
-	if !testSliceEqual([]MyNumber{0, 1, 2, 3, 4, 6, 7, 8, 9}, values) {
+	values = []myNumber{}
+	treeLeft.RangeAll(func(val Comparable) { values = append(values, val.(myNumber)) })
+	if !testSliceEqual([]myNumber{0, 1, 2, 3, 4, 6, 7, 8, 9}, values) {
 		t.Error("Error removing a node with one left child")
 	}
 
 	// Let's remove the root
-	treeLeft.Remove(MyNumber(9))
+	treeLeft.Remove(myNumber(9))
 }
 
 func TestSimpleBinaryTree_Remove2Childs(t *testing.T) {
-	tree := NewSimpleBinaryTree()
-	tree.Add(MyNumber(5))
-	tree.Add(MyNumber(2))
-	tree.Add(MyNumber(3))
-	tree.Add(MyNumber(4))
-	tree.Add(MyNumber(1))
-	tree.Add(MyNumber(8))
-	tree.Add(MyNumber(7))
-	tree.Add(MyNumber(9))
-	tree.Add(MyNumber(6))
-	tree.Add(MyNumber(0))
+	tree := newSimpleBinaryTree()
+	tree.Add(myNumber(5))
+	tree.Add(myNumber(2))
+	tree.Add(myNumber(3))
+	tree.Add(myNumber(4))
+	tree.Add(myNumber(1))
+	tree.Add(myNumber(8))
+	tree.Add(myNumber(7))
+	tree.Add(myNumber(9))
+	tree.Add(myNumber(6))
+	tree.Add(myNumber(0))
 
-	tree.Remove(MyNumber(2))
-	values := []MyNumber{}
-	tree.RangeAll(func(val Comparable) { values = append(values, val.(MyNumber)) })
-	if !testSliceEqual([]MyNumber{0, 1, 3, 4, 5, 6, 7, 8, 9}, values) {
+	tree.Remove(myNumber(2))
+	values := []myNumber{}
+	tree.RangeAll(func(val Comparable) { values = append(values, val.(myNumber)) })
+	if !testSliceEqual([]myNumber{0, 1, 3, 4, 5, 6, 7, 8, 9}, values) {
 		t.Error("Error removing a node with one left child")
 	}
 
 	// Let's remove the root
-	tree.Remove(MyNumber(5))
-	values = []MyNumber{}
-	tree.RangeAll(func(val Comparable) { values = append(values, val.(MyNumber)) })
-	if !testSliceEqual([]MyNumber{0, 1, 3, 4, 6, 7, 8, 9}, values) {
+	tree.Remove(myNumber(5))
+	values = []myNumber{}
+	tree.RangeAll(func(val Comparable) { values = append(values, val.(myNumber)) })
+	if !testSliceEqual([]myNumber{0, 1, 3, 4, 6, 7, 8, 9}, values) {
 		t.Error("Error removing a node with one left child")
 	}
 }
@@ -129,15 +129,15 @@ func TestSimpleBinaryTree_Remove2Childs(t *testing.T) {
 func TestSimpleBinaryTree_Range(t *testing.T) {
 	ITEMS := 1000000
 
-	tree := NewSimpleBinaryTree()
+	tree := newSimpleBinaryTree()
 	for _, j := range rand.Perm(ITEMS) {
-		if err := tree.Add(MyNumber(j)); err != nil {
+		if err := tree.Add(myNumber(j)); err != nil {
 			t.Error(err)
 		}
 	}
 
-	from := MyNumber(45000)
-	to := MyNumber(46000)
+	from := myNumber(45000)
+	to := myNumber(46000)
 
 	nodes := 0
 	tree.Range(from, to, func(val Comparable) {
@@ -158,14 +158,14 @@ func TestSimpleBinaryTree_Range(t *testing.T) {
 func TestSimpleBinaryTree_RangeFrom(t *testing.T) {
 	ITEMS := 1000000
 
-	tree := NewSimpleBinaryTree()
+	tree := newSimpleBinaryTree()
 	for _, j := range rand.Perm(ITEMS) {
-		if err := tree.Add(MyNumber(j)); err != nil {
+		if err := tree.Add(myNumber(j)); err != nil {
 			t.Error(err)
 		}
 	}
 
-	from := MyNumber(1000)
+	from := myNumber(1000)
 
 	nodes := 0
 	tree.RangeFrom(from, func(val Comparable) {
@@ -183,14 +183,14 @@ func TestSimpleBinaryTree_RangeFrom(t *testing.T) {
 func TestSimpleBinaryTree_RangeTo(t *testing.T) {
 	ITEMS := 1000000
 
-	tree := NewSimpleBinaryTree()
+	tree := newSimpleBinaryTree()
 	for _, j := range rand.Perm(ITEMS) {
-		if err := tree.Add(MyNumber(j)); err != nil {
+		if err := tree.Add(myNumber(j)); err != nil {
 			t.Error(err)
 		}
 	}
 
-	to := MyNumber(5000)
+	to := myNumber(5000)
 
 	nodes := 0
 	tree.RangeTo(to, func(val Comparable) {
@@ -215,9 +215,9 @@ func TestSimpleBinaryTree_RemoveBrutalRandom(t *testing.T) {
 		control := make(map[int]bool, ITEMS)
 
 		// Let's create a tree and fill it with random nodes
-		tree := NewSimpleBinaryTree()
+		tree := newSimpleBinaryTree()
 		for _, j := range rand.Perm(ITEMS) {
-			if err := tree.Add(MyNumber(j)); err != nil {
+			if err := tree.Add(myNumber(j)); err != nil {
 				t.Error(err)
 			}
 			control[j] = true
@@ -225,14 +225,14 @@ func TestSimpleBinaryTree_RemoveBrutalRandom(t *testing.T) {
 
 		// Let's check if all nodes are in the tree
 		for _, j := range rand.Perm(ITEMS) {
-			if _, err := tree.Find(MyNumber(j)); err != nil {
+			if _, err := tree.Find(myNumber(j)); err != nil {
 				t.Error(err)
 			}
 		}
 
 		// Let's remove all nodes randomly
 		for _, j := range rand.Perm(ITEMS) {
-			if ok := tree.Remove(MyNumber(j)); !ok {
+			if ok := tree.Remove(myNumber(j)); !ok {
 				t.Errorf("Unkown error removing item <%v>, loop:<%v>", j, i)
 			}
 			delete(control, j)
@@ -257,7 +257,7 @@ func TestSimpleBinaryTree_RemoveBrutalRandom(t *testing.T) {
 
 // Returns true if 2 slices are equal, in length, values and order.
 // false otherwise
-func testSliceEqual(slice1 []MyNumber, slice2 []MyNumber) bool {
+func testSliceEqual(slice1 []myNumber, slice2 []myNumber) bool {
 	if len(slice1) != len(slice2) {
 		return false
 	}

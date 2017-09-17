@@ -6,33 +6,33 @@ import (
 )
 
 func init() {
-	register("simple_binary_tree", func() BinarySearchTree { return NewSimpleBinaryTree() })
+	register("simple_binary_tree", func() BinarySearchTree { return newSimpleBinaryTree() })
 }
 
-type SimpleBinaryTree struct {
-	root *SimpleBinaryTreeNode
+type simpleBinaryTree struct {
+	root *simpleBinaryTreeNode
 }
 
-func NewSimpleBinaryTree() *SimpleBinaryTree {
-	return &SimpleBinaryTree{}
+func newSimpleBinaryTree() *simpleBinaryTree {
+	return &simpleBinaryTree{}
 }
 
-func (t *SimpleBinaryTree) Add(val Comparable) error {
+func (t *simpleBinaryTree) Add(val Comparable) error {
 	if t.root == nil {
-		t.root = NewSimpleBinaryTreeNode(val)
+		t.root = newSimpleBinaryTreeNode(val)
 		return nil
 	}
 	return t.root.Add(val)
 }
 
-func (t *SimpleBinaryTree) Count() uint64 {
+func (t *simpleBinaryTree) Count() uint64 {
 	if t.root==nil {
 		return 0
 	}
 	return t.root.Count()
 }
 
-func (t *SimpleBinaryTree) Find(val Comparable) (Comparable, error) {
+func (t *simpleBinaryTree) Find(val Comparable) (Comparable, error) {
 	if t.root == nil {
 		return nil, errors.New("Not Found. Tree is empty")
 	}
@@ -40,7 +40,7 @@ func (t *SimpleBinaryTree) Find(val Comparable) (Comparable, error) {
 	return node.Val(), err
 }
 
-func (t *SimpleBinaryTree) Remove(val Comparable) (found bool) {
+func (t *simpleBinaryTree) Remove(val Comparable) (found bool) {
 	if t.root == nil {
 		return false
 	}
@@ -65,31 +65,31 @@ func (t *SimpleBinaryTree) Remove(val Comparable) (found bool) {
 	return t.root.Remove(val)
 }
 
-func (t *SimpleBinaryTree) Range(valFrom Comparable, valTo Comparable, fn func(val Comparable)) {
+func (t *simpleBinaryTree) Range(valFrom Comparable, valTo Comparable, fn func(val Comparable)) {
 	if t.root != nil {
 		t.root.Range(valFrom, valTo, fn)
 	}
 }
 
-func (t *SimpleBinaryTree) RangeAll(fn func(val Comparable)) {
+func (t *simpleBinaryTree) RangeAll(fn func(val Comparable)) {
 	if t.root != nil {
 		t.root.RangeAll(fn)
 	}
 }
 
-func (t *SimpleBinaryTree) RangeFrom(val Comparable, fn func(node Comparable)) {
+func (t *simpleBinaryTree) RangeFrom(val Comparable, fn func(node Comparable)) {
 	if t.root != nil {
 		t.root.RangeFrom(val, fn)
 	}
 }
 
-func (t *SimpleBinaryTree) RangeTo(val Comparable, fn func(node Comparable)) {
+func (t *simpleBinaryTree) RangeTo(val Comparable, fn func(node Comparable)) {
 	if t.root != nil {
 		t.root.RangeTo(val, fn)
 	}
 }
 
-func (t *SimpleBinaryTree) Min() Comparable {
+func (t *simpleBinaryTree) Min() Comparable {
 	if t.root == nil {
 		return nil
 	} else {
@@ -97,7 +97,7 @@ func (t *SimpleBinaryTree) Min() Comparable {
 	}
 }
 
-func (t *SimpleBinaryTree) Max() Comparable {
+func (t *simpleBinaryTree) Max() Comparable {
 	if t.root == nil {
 		return nil
 	} else {
@@ -105,43 +105,43 @@ func (t *SimpleBinaryTree) Max() Comparable {
 	}
 }
 
-type SimpleBinaryTreeNode struct {
+type simpleBinaryTreeNode struct {
 	val   Comparable
-	left  *SimpleBinaryTreeNode
-	right *SimpleBinaryTreeNode
+	left  *simpleBinaryTreeNode
+	right *simpleBinaryTreeNode
 }
 
-func NewSimpleBinaryTreeNode(val Comparable) *SimpleBinaryTreeNode {
-	return &SimpleBinaryTreeNode{val: val}
+func newSimpleBinaryTreeNode(val Comparable) *simpleBinaryTreeNode {
+	return &simpleBinaryTreeNode{val: val}
 }
 
-func (n *SimpleBinaryTreeNode) Val() Comparable {
+func (n *simpleBinaryTreeNode) Val() Comparable {
 	return n.val
 }
 
-func (n *SimpleBinaryTreeNode) Add(val Comparable) error {
+func (n *simpleBinaryTreeNode) Add(val Comparable) error {
 
 	compare := val.Compare(n.val)
 	switch {
 	case compare == 0:
-		return errors.New("Duplicate MyNumber")
+		return errors.New("Duplicate myNumber")
 	case compare < 0:
 		if n.left != nil {
 			return n.left.Add(val)
 		} else {
-			n.left = NewSimpleBinaryTreeNode(val)
+			n.left = newSimpleBinaryTreeNode(val)
 		}
 	case compare > 0:
 		if n.right != nil {
 			return n.right.Add(val)
 		} else {
-			n.right = NewSimpleBinaryTreeNode(val)
+			n.right = newSimpleBinaryTreeNode(val)
 		}
 	}
 	return nil
 }
 
-func (n *SimpleBinaryTreeNode) Count() (count uint64) {
+func (n *simpleBinaryTreeNode) Count() (count uint64) {
 	count=1
 	if n.left!=nil {
 		count += n.left.Count()
@@ -152,7 +152,7 @@ func (n *SimpleBinaryTreeNode) Count() (count uint64) {
 	return count
 }
 
-func (n *SimpleBinaryTreeNode) Find(val Comparable, father *SimpleBinaryTreeNode) (this *SimpleBinaryTreeNode, parent *SimpleBinaryTreeNode, err error) {
+func (n *simpleBinaryTreeNode) Find(val Comparable, father *simpleBinaryTreeNode) (this *simpleBinaryTreeNode, parent *simpleBinaryTreeNode, err error) {
 	switch {
 	case val.Compare(n.val) == 0:
 		return n, father, nil
@@ -168,7 +168,7 @@ func (n *SimpleBinaryTreeNode) Find(val Comparable, father *SimpleBinaryTreeNode
 	return nil, father, errors.New("Not Found")
 }
 
-func (n *SimpleBinaryTreeNode) Remove(val Comparable) (found bool) {
+func (n *simpleBinaryTreeNode) Remove(val Comparable) (found bool) {
 
 	node, parent, err := n.Find(val, nil)
 	if err != nil {
@@ -217,7 +217,7 @@ func (n *SimpleBinaryTreeNode) Remove(val Comparable) (found bool) {
 	return false // Never happens
 }
 
-func (n *SimpleBinaryTreeNode) Range(valFrom Comparable, valTo Comparable, fn func(val Comparable)) {
+func (n *simpleBinaryTreeNode) Range(valFrom Comparable, valTo Comparable, fn func(val Comparable)) {
 
 	if n.left != nil {
 		n.left.Range(valFrom, valTo, fn)
@@ -232,7 +232,7 @@ func (n *SimpleBinaryTreeNode) Range(valFrom Comparable, valTo Comparable, fn fu
 	}
 }
 
-func (n *SimpleBinaryTreeNode) RangeAll(fn func(val Comparable)) {
+func (n *simpleBinaryTreeNode) RangeAll(fn func(val Comparable)) {
 	if n.left != nil {
 		n.left.RangeAll(fn)
 	}
@@ -244,7 +244,7 @@ func (n *SimpleBinaryTreeNode) RangeAll(fn func(val Comparable)) {
 	}
 }
 
-func (n *SimpleBinaryTreeNode) RangeFrom(from Comparable, fn func(node Comparable)) {
+func (n *simpleBinaryTreeNode) RangeFrom(from Comparable, fn func(node Comparable)) {
 	if n.left != nil {
 		n.left.RangeFrom(from, fn)
 	}
@@ -258,7 +258,7 @@ func (n *SimpleBinaryTreeNode) RangeFrom(from Comparable, fn func(node Comparabl
 	}
 }
 
-func (n *SimpleBinaryTreeNode) RangeTo(to Comparable, fn func(node Comparable)) {
+func (n *simpleBinaryTreeNode) RangeTo(to Comparable, fn func(node Comparable)) {
 	if n.left != nil {
 		n.left.RangeTo(to, fn)
 	}
@@ -272,7 +272,7 @@ func (n *SimpleBinaryTreeNode) RangeTo(to Comparable, fn func(node Comparable)) 
 	}
 }
 
-func (n *SimpleBinaryTreeNode) Min() Comparable {
+func (n *simpleBinaryTreeNode) Min() Comparable {
 	p := n
 	for {
 		if p.left==nil {
@@ -282,7 +282,7 @@ func (n *SimpleBinaryTreeNode) Min() Comparable {
 	}
 }
 
-func (n *SimpleBinaryTreeNode) Max() Comparable {
+func (n *simpleBinaryTreeNode) Max() Comparable {
 	p := n
 	for {
 		if p.right==nil {
