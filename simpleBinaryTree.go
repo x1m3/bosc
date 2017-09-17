@@ -2,7 +2,12 @@ package bosc
 
 import (
 	"errors"
+
 )
+
+func init() {
+	register("simple_binary_tree", func() BinarySearchTree { return NewSimpleBinaryTree() })
+}
 
 type SimpleBinaryTree struct {
 	root *SimpleBinaryTreeNode
