@@ -12,5 +12,14 @@ func TestNewTreeDoesntExists(t *testing.T) {
 	}
 }
 
+func TestNewTree(t *testing.T) {
+	for _, treeType := range bosc.TreeTypes() {
+		_, err := bosc.NewTree(treeType)
+		if err!=nil {
+			t.Errorf("Error creating tree <%v>", err)
+		}
+	}
+}
+
 
 
