@@ -35,11 +35,52 @@ func (t *mapTree) Find(val Comparable) (Comparable, error) {
 	return nil, errors.New("Not Found.")
 }
 
+func (t *mapTree) Min() Comparable {
+	var min Comparable
 
-func (t *mapTree) Min() Comparable {return nil}
-func (t *mapTree) Max() Comparable{return nil}
-func (t *mapTree) Remove(val Comparable) (found bool) { return false}
-func (t *mapTree) Range(valFrom Comparable, valTo Comparable, fn func(node Comparable)) {}
-func (t *mapTree) RangeAll(fn func(node Comparable)) {}
-func (t *mapTree) RangeFrom(val Comparable, fn func(val Comparable)) {}
-func (t *mapTree) RangeTo(val Comparable, fn func(val Comparable)) {}
+	for _, value := range t.m {
+		if min!=nil {
+			if min.Compare(value)>=0 {
+				min=value
+			}
+		}else {
+			min = value
+		}
+	}
+	return min
+}
+
+func (t *mapTree) Max() Comparable{
+	var max Comparable
+
+	for _, value := range t.m {
+		if max !=nil {
+			if max.Compare(value)<=0 {
+				max =value
+			}
+		}else {
+			max = value
+		}
+	}
+	return max
+}
+
+func (t *mapTree) Remove(val Comparable) (found bool) {
+	return false
+}
+
+func (t *mapTree) Range(valFrom Comparable, valTo Comparable, fn func(node Comparable)) {
+
+}
+
+func (t *mapTree) RangeAll(fn func(node Comparable)) {
+
+}
+
+func (t *mapTree) RangeFrom(val Comparable, fn func(val Comparable)) {
+
+}
+
+func (t *mapTree) RangeTo(val Comparable, fn func(val Comparable)) {
+
+}

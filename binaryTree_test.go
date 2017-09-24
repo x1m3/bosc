@@ -32,12 +32,12 @@ func Test_Add_Find(t *testing.T) {
 		}
 
 		// Add values
-		for i:= range rand.Perm(5000) {
+		for _,i:= range rand.Perm(5000) {
 			tree.Add(newIndex(i))
 		}
 
 		// Search values
-		for i:= range rand.Perm(5000) {
+		for _,i:= range rand.Perm(5000) {
 			if index, err := tree.Find(&myIndex{key:i}); err!=nil {
 				t.Errorf("Tree type <%s>. <%s>",treeType, err)
 			}else {
@@ -48,4 +48,28 @@ func Test_Add_Find(t *testing.T) {
 			}
 		}
 	}
+}
+
+func Test_Min_Max(t *testing.T) {
+	for _, treeType := range bosc.TreeTypes() {
+		tree, err := bosc.NewTree(treeType)
+		if err!=nil {
+			t.Errorf("Tree type <%s>. Error creating tree <%v>", treeType, err)
+		}
+
+		// Add values
+		for _,i:= range rand.Perm(5000) {
+			tree.Add(newIndex(i))
+		}
+		min:= tree.Min().Key().(int)
+		max:= tree.Max().Key().(int)
+
+		if min != 0 {
+			t.Errorf("Tree type <%s>. Wrong min value. Expecting <0>, got <%d>", treeType, min)
+		}
+		if max != 4999 {
+			t.Errorf("Tree type <%s>. Wrong max value. Expecting <5000>, got <%d>", treeType, max)
+		}
+	}
+
 }
