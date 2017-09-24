@@ -36,7 +36,11 @@ func (t *simpleBinaryTree) Find(val Comparable) (Comparable, error) {
 		return nil, errors.New("Not Found. Tree is empty")
 	}
 	node, _, err := t.root.Find(val, nil)
-	return node.Val(), err
+	if node!=nil {
+		return node.val, err
+	}else {
+		return nil, err
+	}
 }
 
 func (t *simpleBinaryTree) Remove(val Comparable) (found bool) {
