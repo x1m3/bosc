@@ -2,7 +2,6 @@ package bosc
 
 import (
 	"errors"
-
 )
 
 func init() {
@@ -46,7 +45,7 @@ func (t *simpleBinaryTree) Remove(val Comparable) (found bool) {
 	}
 
 	// We are removing the root value.
-	if t.root.Val() == val {
+	if t.root.val.Compare(val)==0 {
 		// There is only one node with no childs
 		if t.root.left == nil && t.root.right == nil {
 			t.root = nil
