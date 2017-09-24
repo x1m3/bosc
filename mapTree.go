@@ -66,6 +66,10 @@ func (t *mapTree) Max() Comparable{
 }
 
 func (t *mapTree) Remove(val Comparable) (found bool) {
+	if _, found := t.m[val.Key()]; found {
+		delete(t.m, val.Key())
+		return true
+	}
 	return false
 }
 

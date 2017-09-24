@@ -73,3 +73,41 @@ func Test_Min_Max(t *testing.T) {
 	}
 
 }
+
+func Test_Add_Remove(t *testing.T) {
+	for _, treeType := range bosc.TreeTypes() {
+		tree, err := bosc.NewTree(treeType)
+		if err!=nil {
+			t.Errorf("Tree type <%s>. Error creating tree <%v>", treeType, err)
+		}
+
+		// Add values
+		for _,i:= range rand.Perm(5000) {
+			tree.Add(newIndex(i))
+		}
+
+		// Removing values
+		for _,i:= range rand.Perm(5000) {
+			if !tree.Remove(newIndex(i)) {
+				t.Errorf("Tree type <%s>. Error removing item <%d>. Item not found", treeType, i)
+			}
+
+			if _, err := tree.Find(newIndex(i)); err==nil {
+				t.Errorf("Tree type <%s>. Error removing item <%d>: <%s>", treeType, newIndex(i), err)
+			}
+
+			/*
+
+			if index, err := tree.Find(&myIndex{key:i}); err!=nil {
+				t.Errorf("Tree type <%s>. <%s>",treeType, err)
+			}else {
+				expected := fmt.Sprintf("Number %d", i)
+				if index.(*myIndex).value != expected {
+					t.Errorf("Tree type <%s>, Error retriving key. Expecting a value of <%s>, got <%s>", treeType, expected, index.(*myIndex).value)
+				}
+			}
+			*/
+		}
+	}
+
+}
